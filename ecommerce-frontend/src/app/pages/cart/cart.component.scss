@@ -1,0 +1,131 @@
+.cart-container {
+  max-width: 700px;
+  margin: 40px auto;
+  font-family: 'Poppins', sans-serif;
+  padding: 0 16px;
+
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  .empty-cart {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    margin-top: 60px;
+  }
+
+  .cart-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+
+    h4 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+
+    .cart-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        background-color: #f0f0f0;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+
+        &.remove-btn {
+          background-color: #dc3545;
+          color: white;
+
+          &:hover {
+            background-color: #b02a37;
+          }
+        }
+      }
+    }
+  }
+
+  .cart-total {
+    text-align: right;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 20px 0;
+  }
+
+  .checkout-form {
+    text-align: center;
+    margin-top: 30px;
+
+    textarea {
+      width: 60%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: green;
+      color: white;
+      font-weight: 600;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darkgreen;
+      }
+
+      &:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .stripe-btn {
+    display: block;
+    margin: 30px auto 0 auto;
+    background-color: #5865f2;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #3b4ed9;
+    }
+  }
+}

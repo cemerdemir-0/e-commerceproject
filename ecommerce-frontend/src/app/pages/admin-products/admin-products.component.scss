@@ -1,0 +1,73 @@
+/* admin-products.component.css */
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+button.update {
+  background-color: #ffc107;
+  color: black;
+}
+
+button.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f8f9fa;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.section-title i {
+  margin-right: 8px;
+}

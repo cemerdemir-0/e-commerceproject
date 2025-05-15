@@ -1,0 +1,126 @@
+.sales-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  font-family: 'Poppins', sans-serif;
+  padding: 0 20px;
+
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  .sales-chart {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .order-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+
+    .order-info p,
+    .order-total {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .order-items {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .item-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background-color: #f9f9f9;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+
+        .product-img {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          border-radius: 8px;
+          flex-shrink: 0;
+        }
+
+        .item-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 4px;
+
+          .item-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #222;
+          }
+
+          div {
+            font-size: 14px;
+            color: #555;
+          }
+        }
+      }
+    }
+
+    .order-total {
+      font-weight: 600;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .order-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 14px;
+        background-color: #007bff;
+        color: white;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .cancel-btn {
+        background-color: #dc3545;
+
+        &:hover {
+          background-color: #b02a37;
+        }
+      }
+    }
+  }
+}

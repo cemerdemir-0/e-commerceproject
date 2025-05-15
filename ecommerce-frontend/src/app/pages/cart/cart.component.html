@@ -1,0 +1,43 @@
+<div class="cart-container">
+  <h2>🛒 Sepetim</h2>
+
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <p>Sepetiniz boş.</p>
+  </div>
+
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <h4>{{ item.product.name }}</h4>
+    <p><strong>Fiyat:</strong> {{ item.product.price | currency:'TRY' }}</p>
+    <p><strong>Adet:</strong> {{ item.quantity }}</p>
+    <p><strong>Toplam:</strong> {{ item.product.price * item.quantity | currency:'TRY' }}</p>
+
+    <div class="cart-actions">
+      <button (click)="increase(item.product.id)">➕</button>
+      <button (click)="decrease(item.product.id)">➖</button>
+      <button class="remove-btn" (click)="remove(item.product.id)">❌</button>
+    </div>
+  </div>
+
+  <div *ngIf="cartItems.length > 0" class="cart-total">
+    Toplam: {{ getTotal() | currency:'TRY' }}
+  </div>
+
+  <div *ngIf="cartItems.length > 0" class="checkout-form">
+    <form [formGroup]="addressForm" (ngSubmit)="checkout()">
+      <textarea
+        formControlName="address"
+        placeholder="Teslimat adresinizi girin"
+        rows="3">
+      </textarea>
+
+      <div *ngIf="addressForm.get('address')?.invalid && addressForm.get('address')?.touched" class="error-message">
+        Adres en az 10 karakter olmalı.
+      </div>
+
+      <button type="submit" [disabled]="addressForm.invalid">
+        🛒 Siparişi Onayla
+      </button>
+    </form>
+  </div>
+
+</div>

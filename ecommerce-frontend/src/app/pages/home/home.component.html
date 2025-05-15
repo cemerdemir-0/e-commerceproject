@@ -1,0 +1,29 @@
+<div class="home-container">
+
+  <h2 class="home-title">🛒 Ürünler</h2>
+
+  <div class="search-filter">
+    <input type="text" [(ngModel)]="searchText" placeholder="Ürün ara..." />
+    <select [(ngModel)]="selectedCategory">
+      <option value="">Tüm Kategoriler</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+  </div>
+
+  <div class="product-grid">
+    <div *ngFor="let product of filteredProducts()" class="product-card">
+
+      <a [routerLink]="['/product', product.id]" class="product-link">
+        <img [src]="product.imageUrl" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+      </a>
+
+      <p><strong>Kategori:</strong> {{ product.category }}</p>
+      <p><strong>Fiyat:</strong> {{ product.price | currency:'TRY' }}</p>
+      <p><strong>Stok:</strong> {{ product.stock }}</p>
+      <p><strong>Puan:</strong> {{ product.rating }} ⭐ ({{ product.reviewCount }} yorum)</p>
+
+      <button (click)="addToCart(product.id)" [disabled]="product.stock === 0">➕ Sepete Ekle</button>
+    </div>
+  </div>
+</div>

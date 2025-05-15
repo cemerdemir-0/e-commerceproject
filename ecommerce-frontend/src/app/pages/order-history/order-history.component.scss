@@ -1,0 +1,76 @@
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.order-header {
+  margin-bottom: 15px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.order-items {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.product-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  border: 1px solid #ccc;
+}
+
+.item-info {
+  font-size: 14px;
+}
+
+.item-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.order-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cancel-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.empty-cart-message {
+  height: 60vh; // sayfanın ortasına yaklaşması için
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+  flex-direction: column;
+  opacity: 0.8;
+  font-family: 'Segoe UI', sans-serif;
+}
+

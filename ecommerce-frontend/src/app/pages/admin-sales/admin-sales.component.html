@@ -1,0 +1,49 @@
+<div class="sales-container">
+
+  <h2>📊 Satışlar</h2>
+
+  <!-- Grafik -->
+  <div class="sales-chart">
+    <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType">
+    </canvas>
+  </div>
+
+  <!-- Sipariş Listesi -->
+  <div *ngFor="let order of orders" class="order-card">
+
+    <div class="order-info">
+      <p><strong>Sipariş ID:</strong> {{ order.id }}</p>
+      <p><strong>Kullanıcı:</strong> {{ order.userEmail }}</p>
+      <p><strong>Adres:</strong> {{ order.address }}</p>
+      <p><strong>Durum:</strong> {{ order.status }}</p>
+    </div>
+
+    <div class="order-items">
+      <div *ngFor="let item of order.items" class="item-row">
+        <img [src]="item.product.imageUrl" alt="ürün" class="product-img">
+        <div class="item-info">
+          <div class="item-name">{{ item.product.name }}</div>
+          <div>{{ item.quantity }} adet × {{ item.product.price | currency:'TRY' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="order-total"><strong>Toplam:</strong> {{ getTotal(order) | currency:'TRY' }}</p>
+
+    <div class="order-actions">
+      <select [(ngModel)]="order.newStatus">
+        <option value="Yeni durum seçin." disabled selected>📌 Yeni durum seçin</option>
+        <option value="KARGODA">Kargoda</option>
+        <option value="TESLIM_EDILDI">Teslim Edildi</option>
+      </select>
+
+      <button (click)="updateStatus(order.id, order.newStatus)">Güncelle</button>
+      <button (click)="cancelOrder(order.id)" class="cancel-btn">İptal Et</button>
+    </div>
+
+  </div>
+
+</div>

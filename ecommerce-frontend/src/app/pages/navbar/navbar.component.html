@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <a routerLink="/home" class="nav-link">🏠 Anasayfa</a>
+    <a *ngIf="isLoggedIn()" routerLink="/cart" class="nav-link">🛒 Sepetim</a>
+  </div>
+
+  <div class="nav-right" *ngIf="isLoggedIn(); else guest">
+    <span class="user-email">{{ getUserEmail() }}</span>
+
+    <a *ngIf="isAdmin()" routerLink="/admin" class="nav-link underline">Admin Paneli</a>
+    <a *ngIf="isSeller()" routerLink="/seller" class="nav-link underline">Satıcı Paneli</a>
+    <a routerLink="/orders" class="nav-link underline">🧾 Siparişlerim</a>
+
+    <button (click)="logout()" class="logout-btn">Çıkış Yap</button>
+  </div>
+
+  <ng-template #guest>
+    <a routerLink="/login" class="nav-link">Giriş Yap</a>
+  </ng-template>
+</nav>

@@ -1,0 +1,55 @@
+<div *ngIf="product" class="product-detail-container">
+
+  <!-- Ürün Görseli -->
+  <div class="product-image">
+    <img [src]="product.imageUrl" [alt]="product.name" />
+  </div>
+
+  <!-- Ürün Bilgileri -->
+  <div class="product-info">
+    <h2>{{ product.name }}</h2>
+    <p><strong>Fiyat:</strong> {{ product.price | currency:'TRY' }}</p>
+    <p><strong>Stok:</strong> {{ product.stock }}</p>
+    <p><strong>Puan:</strong> {{ product.rating }} ⭐ ({{ product.reviewCount }} yorum)</p>
+    <p><strong>Açıklama:</strong> {{ product.description }}</p>
+    <p *ngIf="product.sellerEmail"><strong>Satıcı:</strong> {{ product.sellerEmail }}</p>
+
+    <button (click)="addToCart(product.id)" [disabled]="product.stock === 0">
+      ➕ Sepete Ekle
+    </button>
+  </div>
+
+</div>
+
+<hr />
+
+<!-- Yorumlar -->
+<div class="reviews-section">
+  <h3>💬 Ürün Yorumları</h3>
+
+  <div *ngIf="reviews.length === 0" class="no-reviews">Henüz yorum yapılmamış.</div>
+
+  <div *ngFor="let review of reviews" class="review-card">
+    <p><strong>👤 {{ review.userEmail }}</strong></p>
+    <p>⭐ {{ review.rating }} / 5</p>
+    <p>{{ review.comment }}</p>
+  </div>
+</div>
+
+<hr />
+
+<!-- Yorum Ekle -->
+<div class="review-form">
+  <h3>✍️ Yorum Yap</h3>
+
+  <label>
+    Puan (1-5):
+    <select [(ngModel)]="rating">
+      <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+    </select>
+  </label>
+
+  <textarea [(ngModel)]="comment" placeholder="Yorumunuzu buraya yazın..." rows="4"></textarea>
+
+  <button (click)="submitReview()">Gönder</button>
+</div>

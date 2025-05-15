@@ -1,0 +1,37 @@
+<div *ngFor="let order of orders" class="order-card">
+
+  <!-- Sipariş Başlığı -->
+  <div class="order-header">
+    <div><strong>📦 Sipariş No:</strong> #{{ order.id }}</div>
+    <div><strong>📍 Adres:</strong> {{ order.address }}</div>
+    <div><strong>📅 Tarih:</strong> {{ order.createdAt | date:'medium' }}</div>
+    <div><strong>🔄 Durum:</strong> {{ order.status }}</div>
+  </div>
+
+  <!-- Ürünler -->
+  <div class="order-items">
+    <div *ngFor="let item of order.items" class="item-row">
+      <img [src]="item.product.imageUrl" alt="ürün" class="product-img">
+      <div class="item-info">
+        <div class="item-name">{{ item.product.name }}</div>
+        <div>{{ item.quantity }} adet × {{ item.product.price | currency:'TRY' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toplam ve İptal -->
+  <div class="order-footer">
+    <div><strong>🧾 Toplam:</strong> {{ getTotal(order) | currency:'TRY' }}</div>
+    <button *ngIf="order.status !== 'IPTAL_EDILDI'" (click)="cancelOrder(order.id)">
+      ❌ Siparişi İptal Et
+    </button>
+  </div>
+
+
+</div>
+
+
+<div *ngIf="orders.length === 0" class="empty-cart-message">
+  🛒 Henüz sipariş vermediniz.
+</div>
+

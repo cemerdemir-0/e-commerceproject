@@ -1,0 +1,39 @@
+<div class="container" style="max-width: 600px; margin: 20px auto;">
+  <h3>🛒 Yeni Ürün Ekle</h3>
+  <form [formGroup]="productForm" (ngSubmit)="submitProduct()" style="display: flex; flex-direction: column; gap: 10px;">
+
+    <input type="text" placeholder="Ürün Adı" formControlName="name" />
+    <textarea placeholder="Açıklama" formControlName="description"></textarea>
+    <input type="number" placeholder="Fiyat" formControlName="price" />
+    <input type="number" placeholder="Stok" formControlName="stock" />
+    <input type="text" placeholder="Kategori" formControlName="category" />
+    <input type="text" placeholder="Görsel URL" formControlName="imageUrl" />
+
+    <button type="submit" [disabled]="productForm.invalid">Ekle</button>
+  </form>
+
+  <hr style="margin: 30px 0;" />
+  <h3>📦 Mevcut Ürünler</h3>
+
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+    <tr>
+      <th>Ürün</th>
+      <th>Fiyat</th>
+      <th>Stok</th>
+      <th>İşlemler</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td><input type="number" [(ngModel)]="product.price" /></td>
+      <td><input type="number" [(ngModel)]="product.stock" /></td>
+      <td>
+        <button (click)="updateProduct(product)">Güncelle</button>
+        <button (click)="deleteProduct(product.id)" style="color: red;">Sil</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
