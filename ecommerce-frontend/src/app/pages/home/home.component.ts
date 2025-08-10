@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product.model';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +9,27 @@ import {Product} from '../../models/product.model';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   categories: string[] = [];
-
 
   searchText: string = '';
   selectedCategory : string = '';
 
+  // Carousel properties
+  currentSlide = 0;
+  slides = [
+    { title: 'Yaz Sezonu İndirimi', subtitle: 'Kıyafetlerde %50\'ye varan indirimler' },
+    { title: 'Teknolojik Ürünler', subtitle: 'Peşin fiyatına 6 taksit imkanı' },
+    { title: 'Ev & Yaşam', subtitle: 'Evinizi güzelleştiren ürünler' },
+    { title: 'Spor & Outdoor', subtitle: 'Aktif yaşam için her şey' }
+  ];
+  private slideInterval: any;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
@@ -33,7 +45,23 @@ export class HomeComponent implements OnInit {
         console.error('Ürünler alınamadı:', err);
       }
 
-    })
+    });
+
+    // Handle search query from navbar
+    this.route.queryParams.subscribe(params => {
+      if (params['search']) {
+        this.searchText = params['search'];
+      }
+    });
+
+    // Start carousel auto-play
+    this.startCarousel();
+  }
+
+  ngOnDestroy(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
   }
 
   addToCart(productId: number): void {
@@ -50,5 +78,42 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  // Carousel methods
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.resetCarouselTimer();
+  }
 
+  previousSlide(): void {
+    this.currentSlide = this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+    this.resetCarouselTimer();
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+    this.resetCarouselTimer();
+  }
+
+  private startCarousel(): void {
+    this.slideInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000); // 5 saniyede bir otomatik geçiş
+  }
+
+  private resetCarouselTimer(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
+    this.startCarousel();
+  }
+
+  onCarouselMouseEnter(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
+  }
+
+  onCarouselMouseLeave(): void {
+    this.startCarousel();
+  }
 }

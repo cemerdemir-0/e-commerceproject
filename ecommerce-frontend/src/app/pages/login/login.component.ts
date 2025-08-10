@@ -13,8 +13,14 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  showPassword: boolean = false;
+  rememberMe: boolean = false;
 
   constructor(private http:HttpClient, private router:Router){}
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   login() : void {
     const loginData = {email: this.email, password: this.password};

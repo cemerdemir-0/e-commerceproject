@@ -19,6 +19,7 @@ import {SellerPanelComponent} from './pages/seller-panel/seller-panel.component'
 import {SellerGuard} from './guards/seller.guard';
 import {SellerAddProductComponent} from './pages/seller-add-product/seller-add-product.component';
 import {SellerOrdersComponent} from './pages/seller-orders/seller-orders.component';
+import {CheckoutComponent} from './pages/checkout/checkout.component';
 
 const routes: Routes = [{path : '', redirectTo: 'login', pathMatch: 'full'},
                         {path: 'login', component: LoginComponent, canActivate: [fixGuard]},
@@ -26,6 +27,7 @@ const routes: Routes = [{path : '', redirectTo: 'login', pathMatch: 'full'},
                         {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
                         {path: 'register', component: RegisterComponent, canActivate: [fixGuard]},
                         {path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
+                        {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
                         {path: 'success', component: SuccessComponent},
                         {path: 'failure', component: FailureComponent},
                         {path: 'orders', component: OrderHistoryComponent},

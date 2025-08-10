@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Product} from '../../models/product.model';
-import {ActivatedRoute} from '@angular/router';
-import {ProductService} from '../../services/product.service';
-import {ReviewService} from '../../services/review.service';
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../../models/product.model';
+import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,7 +15,7 @@ export class ProductDetailComponent implements OnInit {
   reviews: any[] = [];
   rating: number = 5;
   comment: string = '';
-
+  selectedQuantity: number = 1;
 
   product!: Product;
 
@@ -70,6 +70,22 @@ export class ProductDetailComponent implements OnInit {
         alert(err.error?.message || 'Yorum gönderilemedi.');
       }
     });
+  }
+
+  increaseQuantity(): void {
+    if (this.selectedQuantity < this.product.stock) {
+      this.selectedQuantity++;
+    }
+  }
+
+  decreaseQuantity(): void {
+    if (this.selectedQuantity > 1) {
+      this.selectedQuantity--;
+    }
+  }
+
+  setRating(rating: number): void {
+    this.rating = rating;
   }
 
 }

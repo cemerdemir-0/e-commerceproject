@@ -45,6 +45,46 @@ export class OrderHistoryComponent implements OnInit {
     });
   }
 
+  getActiveOrdersCount(): number {
+    return this.orders.filter(order => 
+      order.status !== 'IPTAL_EDILDI' && order.status !== 'TESLIM_EDILDI'
+    ).length;
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'BEKLEMEDE':
+        return 'status-pending';
+      case 'HAZIRLANIYOR':
+        return 'status-processing';
+      case 'KARGODA':
+        return 'status-shipped';
+      case 'TESLIM_EDILDI':
+        return 'status-delivered';
+      case 'IPTAL_EDILDI':
+        return 'status-cancelled';
+      default:
+        return 'status-pending';
+    }
+  }
+
+  getStatusText(status: string): string {
+    switch (status) {
+      case 'BEKLEMEDE':
+        return 'Beklemede';
+      case 'HAZIRLANIYOR':
+        return 'Hazırlanıyor';
+      case 'KARGODA':
+        return 'Kargoda';
+      case 'TESLIM_EDILDI':
+        return 'Teslim Edildi';
+      case 'IPTAL_EDILDI':
+        return 'İptal Edildi';
+      default:
+        return 'Bilinmeyen';
+    }
+  }
+
 
 
 }

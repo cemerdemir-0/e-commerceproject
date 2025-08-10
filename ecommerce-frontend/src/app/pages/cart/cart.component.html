@@ -1,43 +1,209 @@
-<div class="cart-container">
-  <h2>🛒 Sepetim</h2>
-
-  <div *ngIf="cartItems.length === 0" class="empty-cart">
-    <p>Sepetiniz boş.</p>
-  </div>
-
-  <div *ngFor="let item of cartItems" class="cart-item">
-    <h4>{{ item.product.name }}</h4>
-    <p><strong>Fiyat:</strong> {{ item.product.price | currency:'TRY' }}</p>
-    <p><strong>Adet:</strong> {{ item.quantity }}</p>
-    <p><strong>Toplam:</strong> {{ item.product.price * item.quantity | currency:'TRY' }}</p>
-
-    <div class="cart-actions">
-      <button (click)="increase(item.product.id)">➕</button>
-      <button (click)="decrease(item.product.id)">➖</button>
-      <button class="remove-btn" (click)="remove(item.product.id)">❌</button>
+<div class="premium-cart">
+  <!-- Cart Header -->
+  <section class="cart-header-section">
+    <div class="container">
+      <div class="cart-header">
+        <h1 class="page-title">Alışveriş Sepetim</h1>
+        <div class="cart-progress">
+          <div class="progress-step active">
+            <div class="step-number">1</div>
+            <span>Sepet</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step">
+            <div class="step-number">2</div>
+            <span>Teslimat</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step">
+            <div class="step-number">3</div>
+            <span>Ödeme</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div *ngIf="cartItems.length > 0" class="cart-total">
-    Toplam: {{ getTotal() | currency:'TRY' }}
-  </div>
-
-  <div *ngIf="cartItems.length > 0" class="checkout-form">
-    <form [formGroup]="addressForm" (ngSubmit)="checkout()">
-      <textarea
-        formControlName="address"
-        placeholder="Teslimat adresinizi girin"
-        rows="3">
-      </textarea>
-
-      <div *ngIf="addressForm.get('address')?.invalid && addressForm.get('address')?.touched" class="error-message">
-        Adres en az 10 karakter olmalı.
+  <!-- Cart Content -->
+  <section class="cart-content-section">
+    <div class="container">
+      <!-- Empty Cart State -->
+      <div *ngIf="cartItems.length === 0" class="empty-cart-state">
+        <div class="empty-cart-icon">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>Sepetiniz Boş</h2>
+        <p>Henüz sepetinize ürün eklemediniz. Alışverişe başlamak için ürünleri keşfedin!</p>
+        <a routerLink="/home" class="btn btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Alışverişe Başla
+        </a>
       </div>
 
-      <button type="submit" [disabled]="addressForm.invalid">
-        🛒 Siparişi Onayla
-      </button>
-    </form>
-  </div>
+      <!-- Cart Items -->
+      <div *ngIf="cartItems.length > 0" class="cart-layout">
+        <div class="cart-items-section">
+          <div class="section-header">
+            <h2>Sepetinizdeki Ürünler</h2>
+            <span class="item-count">{{ cartItems.length }} ürün</span>
+          </div>
 
+          <div class="cart-items-list">
+            <div *ngFor="let item of cartItems; let i = index" class="cart-item-card">
+              <div class="item-image">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+              </div>
+
+              <div class="item-details">
+                <div class="item-header">
+                  <h3 class="item-name">{{ item.product.name }}</h3>
+                  <button class="remove-btn" (click)="remove(item.product.id)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="item-info">
+                  <div class="item-category">{{ item.product.category }}</div>
+                  <div class="item-stock">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Stokta var
+                  </div>
+                </div>
+
+                <div class="item-actions">
+                  <div class="quantity-controls">
+                    <button class="quantity-btn" (click)="decrease(item.product.id)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <span class="quantity-display">{{ item.quantity }}</span>
+                    <button class="quantity-btn" (click)="increase(item.product.id)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="item-pricing">
+                    <div class="unit-price">{{ item.product.price | currency:'TRY':'symbol':'1.0-0' }} / adet</div>
+                    <div class="total-price">{{ item.product.price * item.quantity | currency:'TRY':'symbol':'1.0-0' }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommended Products -->
+          <div class="recommended-section">
+            <h3>Size Önerebileceğimiz Ürünler</h3>
+            <div class="recommended-products">
+              <div class="recommended-item">
+                <img src="https://via.placeholder.com/80x80" alt="Önerilen ürün" />
+                <div class="recommended-info">
+                  <h4>Benzer Ürün</h4>
+                  <span class="recommended-price">299₺</span>
+                </div>
+                <button class="btn btn-sm btn-secondary">Ekle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary-section">
+          <div class="summary-card">
+            <h3>Sipariş Özeti</h3>
+            
+            <div class="summary-details">
+              <div class="summary-row">
+                <span>Ara Toplam</span>
+                <span>{{ getTotal() | currency:'TRY':'symbol':'1.0-0' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Kargo</span>
+                <span class="free-shipping">Ücretsiz</span>
+              </div>
+              <div class="summary-row discount">
+                <span>İndirim</span>
+                <span>-{{ (getTotal() * 0.1) | currency:'TRY':'symbol':'1.0-0' }}</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row total">
+                <span>Toplam</span>
+                <span>{{ (getTotal() * 0.9) | currency:'TRY':'symbol':'1.0-0' }}</span>
+              </div>
+            </div>
+
+            <div class="delivery-options">
+              <h4>Teslimat Seçenekleri</h4>
+              <div class="delivery-option">
+                <input type="radio" id="standard" name="delivery" checked />
+                <label for="standard">
+                  <div class="option-info">
+                    <span class="option-name">Standart Teslimat</span>
+                    <span class="option-time">2-3 iş günü</span>
+                  </div>
+                  <span class="option-price">Ücretsiz</span>
+                </label>
+              </div>
+              <div class="delivery-option">
+                <input type="radio" id="express" name="delivery" />
+                <label for="express">
+                  <div class="option-info">
+                    <span class="option-name">Hızlı Teslimat</span>
+                    <span class="option-time">1 iş günü</span>
+                  </div>
+                  <span class="option-price">29₺</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <div class="checkout-section">
+              <button 
+                class="btn btn-primary btn-lg checkout-btn"
+                (click)="proceedToCheckout()"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Teslimat Bilgilerine Geç
+              </button>
+            </div>
+
+            <!-- Security Info -->
+            <div class="security-info">
+              <div class="security-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22S8 18 8 13V6L12 4L16 6V13C16 18 12 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Güvenli ödeme</span>
+              </div>
+              <div class="security-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>30 gün iade garantisi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

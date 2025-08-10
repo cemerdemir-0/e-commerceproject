@@ -1,55 +1,264 @@
-<div *ngIf="product" class="product-detail-container">
-
-  <!-- Ürün Görseli -->
-  <div class="product-image">
-    <img [src]="product.imageUrl" [alt]="product.name" />
+<div *ngIf="product" class="premium-product-detail">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a routerLink="/home" class="breadcrumb-item">Ana Sayfa</a>
+        <span class="breadcrumb-separator">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb-item">{{ product.category }}</span>
+        <span class="breadcrumb-separator">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb-item active">{{ product.name }}</span>
+      </nav>
+    </div>
   </div>
 
-  <!-- Ürün Bilgileri -->
-  <div class="product-info">
-    <h2>{{ product.name }}</h2>
-    <p><strong>Fiyat:</strong> {{ product.price | currency:'TRY' }}</p>
-    <p><strong>Stok:</strong> {{ product.stock }}</p>
-    <p><strong>Puan:</strong> {{ product.rating }} ⭐ ({{ product.reviewCount }} yorum)</p>
-    <p><strong>Açıklama:</strong> {{ product.description }}</p>
-    <p *ngIf="product.sellerEmail"><strong>Satıcı:</strong> {{ product.sellerEmail }}</p>
+  <!-- Product Main Section -->
+  <section class="product-main-section">
+    <div class="container">
+      <div class="product-layout">
+        <!-- Product Images -->
+        <div class="product-images">
+          <div class="main-image">
+            <img [src]="product.imageUrl" [alt]="product.name" class="product-image" />
+            <div class="image-badges">
+              <span class="badge badge-new">Yeni</span>
+              <span class="badge badge-discount">%17 İndirim</span>
+            </div>
+          </div>
+          
+          <div class="thumbnail-images">
+            <div class="thumbnail active">
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            </div>
+            <div class="thumbnail">
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            </div>
+            <div class="thumbnail">
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            </div>
+          </div>
+        </div>
 
-    <button (click)="addToCart(product.id)" [disabled]="product.stock === 0">
-      ➕ Sepete Ekle
-    </button>
-  </div>
+        <!-- Product Info -->
+        <div class="product-info">
+          <div class="product-header">
+            <div class="product-category">{{ product.category }}</div>
+            <h1 class="product-title">{{ product.name }}</h1>
+            
+            <div class="product-rating">
+              <div class="stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star" 
+                      [class.filled]="star <= product.rating">⭐</span>
+              </div>
+              <span class="rating-score">{{ product.rating }}/5</span>
+              <span class="rating-count">({{ product.reviewCount }} değerlendirme)</span>
+            </div>
+          </div>
 
-</div>
+          <div class="price-section">
+            <div class="price-main">
+              <span class="current-price">{{ product.price | currency:'TRY':'symbol':'1.0-0' }}</span>
+              <span class="original-price">{{ (product.price * 1.2) | currency:'TRY':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="price-details">
+              <span class="discount-amount">{{ (product.price * 0.2) | currency:'TRY':'symbol':'1.0-0' }} tasarruf</span>
+              <span class="tax-info">KDV Dahil</span>
+            </div>
+          </div>
 
-<hr />
+          <div class="stock-section">
+            <div class="stock-status" [class.low-stock]="product.stock < 10">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ product.stock }} adet stokta</span>
+            </div>
+            <div class="delivery-info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 3H3L3.4 5M7 13H17L21 5H3.4M7 13L3.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Ücretsiz kargo (75₺ ve üzeri)</span>
+            </div>
+          </div>
 
-<!-- Yorumlar -->
-<div class="reviews-section">
-  <h3>💬 Ürün Yorumları</h3>
+          <div class="product-actions">
+            <div class="quantity-selector">
+              <label>Adet:</label>
+              <div class="quantity-controls">
+                <button class="quantity-btn" (click)="decreaseQuantity()">-</button>
+                <input type="number" [(ngModel)]="selectedQuantity" min="1" [max]="product.stock" class="quantity-input" />
+                <button class="quantity-btn" (click)="increaseQuantity()">+</button>
+              </div>
+            </div>
 
-  <div *ngIf="reviews.length === 0" class="no-reviews">Henüz yorum yapılmamış.</div>
+            <div class="action-buttons">
+              <button 
+                (click)="addToCart(product.id)" 
+                [disabled]="product.stock === 0"
+                class="btn btn-primary btn-lg add-to-cart"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Sepete Ekle
+              </button>
+              
+              <button class="btn btn-secondary btn-lg wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.61C2.1283 5.6417 1.5487 7.04097 1.5487 8.5C1.5487 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39467C21.7563 5.72723 21.351 5.1208 20.84 4.61Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Favorilere Ekle
+              </button>
+            </div>
+          </div>
 
-  <div *ngFor="let review of reviews" class="review-card">
-    <p><strong>👤 {{ review.userEmail }}</strong></p>
-    <p>⭐ {{ review.rating }} / 5</p>
-    <p>{{ review.comment }}</p>
-  </div>
-</div>
+          <div class="seller-info" *ngIf="product.sellerEmail">
+            <div class="seller-card">
+              <div class="seller-avatar">
+                <span>{{ product.sellerEmail.charAt(0).toUpperCase() }}</span>
+              </div>
+              <div class="seller-details">
+                <h4>Satıcı Bilgileri</h4>
+                <p>{{ product.sellerEmail }}</p>
+                <div class="seller-rating">
+                  <span class="rating">4.8 ⭐</span>
+                  <span class="reviews">(1.2k değerlendirme)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<hr />
+  <!-- Product Description -->
+  <section class="product-description-section">
+    <div class="container">
+      <div class="description-tabs">
+        <button class="tab-btn active">Ürün Açıklaması</button>
+        <button class="tab-btn">Özellikler</button>
+        <button class="tab-btn">Kargo & İade</button>
+      </div>
+      
+      <div class="description-content">
+        <div class="description-text">
+          <p>{{ product.description }}</p>
+          <ul class="feature-list">
+            <li>Premium kalite malzeme</li>
+            <li>Uzun ömürlü kullanım</li>
+            <li>Kolay bakım</li>
+            <li>Çevre dostu üretim</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- Yorum Ekle -->
-<div class="review-form">
-  <h3>✍️ Yorum Yap</h3>
+  <!-- Reviews Section -->
+  <section class="reviews-section">
+    <div class="container">
+      <div class="reviews-header">
+        <h2 class="section-title">Müşteri Değerlendirmeleri</h2>
+        <div class="reviews-summary">
+          <div class="rating-overview">
+            <div class="overall-rating">
+              <span class="rating-number">{{ product.rating }}</span>
+              <div class="rating-stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star" 
+                      [class.filled]="star <= product.rating">⭐</span>
+              </div>
+              <span class="total-reviews">{{ product.reviewCount }} değerlendirme</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <label>
-    Puan (1-5):
-    <select [(ngModel)]="rating">
-      <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
-    </select>
-  </label>
+      <div class="reviews-content">
+        <div class="reviews-list">
+          <div *ngIf="reviews.length === 0" class="no-reviews">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3>Henüz değerlendirme yok</h3>
+            <p>Bu ürün için ilk değerlendirmeyi siz yapın!</p>
+          </div>
 
-  <textarea [(ngModel)]="comment" placeholder="Yorumunuzu buraya yazın..." rows="4"></textarea>
+          <div *ngFor="let review of reviews" class="review-card">
+            <div class="review-header">
+              <div class="reviewer-info">
+                <div class="reviewer-avatar">
+                  <span>{{ review.userEmail.charAt(0).toUpperCase() }}</span>
+                </div>
+                <div class="reviewer-details">
+                  <h4>{{ review.userEmail }}</h4>
+                  <div class="review-rating">
+                    <span *ngFor="let star of [1,2,3,4,5]" 
+                          class="star" 
+                          [class.filled]="star <= review.rating">⭐</span>
+                  </div>
+                </div>
+              </div>
+              <div class="review-date">
+                <span>2 gün önce</span>
+              </div>
+            </div>
+            <div class="review-content">
+              <p>{{ review.comment }}</p>
+            </div>
+          </div>
+        </div>
 
-  <button (click)="submitReview()">Gönder</button>
+        <!-- Add Review Form -->
+        <div class="add-review-section">
+          <div class="review-form-card">
+            <h3>Değerlendirme Yap</h3>
+            
+            <div class="rating-input">
+              <label>Puanınız:</label>
+              <div class="star-rating">
+                <button 
+                  *ngFor="let star of [1,2,3,4,5]" 
+                  class="star-btn"
+                  [class.active]="star <= rating"
+                  (click)="setRating(star)"
+                >
+                  ⭐
+                </button>
+              </div>
+            </div>
+
+            <div class="comment-input">
+              <label>Yorumunuz:</label>
+              <textarea 
+                [(ngModel)]="comment" 
+                placeholder="Ürün hakkındaki düşüncelerinizi paylaşın..." 
+                rows="4"
+                class="form-input"
+              ></textarea>
+            </div>
+
+            <button (click)="submitReview()" class="btn btn-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Değerlendirme Gönder
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

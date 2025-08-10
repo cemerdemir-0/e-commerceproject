@@ -21,6 +21,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { SellerPanelComponent } from './pages/seller-panel/seller-panel.component';
 import { SellerAddProductComponent } from './pages/seller-add-product/seller-add-product.component';
 import { SellerOrdersComponent } from './pages/seller-orders/seller-orders.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { SellerOrdersComponent } from './pages/seller-orders/seller-orders.compo
     SellerPanelComponent,
     SellerAddProductComponent,
     SellerOrdersComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
